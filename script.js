@@ -18,4 +18,3 @@ changeTextBtn.addEventListener("click", () => {
     clickCount++;
     introText.textContent = `Кнопка нажата ${clickCount} раз(а)`;
 });
-123
