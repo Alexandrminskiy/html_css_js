@@ -1,31 +1,28 @@
 const inpText = document.createElement('input');
-inpText.placeholder = 'Введите текст';
+inpText.placeholder = 'Введите текст'
 const btnText = document.createElement('button');
-btnText.textContent='Введите задачу';
-const textList = document.createElement('ul');
+btnText.textContent='Добавить текст';
+const listText = document.createElement('ul');
 
-
-document.body.append(inpText, btnText, textList);
+document.body.append(inpText, btnText, listText);
 
 btnText.addEventListener('click', addTodo);
 
 function addTodo(){
-    const task = inpText.value.trim();
-    console.log(task);
-    if (task) {
-        const li = document.createElement('li');
-        li.textContent = task
+const task = inpText.value.trim();
 
-        li.addEventListener('click', ()=>{
-            li.style.textDecoration = li.style.textDecoration ? '' : 'line-through';
-        });
+if(task){
+    const li = document.createElement('li')
+    li.textContent = task;
+li.addEventListener('click', ()=>{
+    li.style.textDecoration = li.style.textDecoration ? '' : 'line-through';
+})
 
-        li.addEventListener('dblclick', ()=> li.remove())
-
-        textList.append(li)
-        inpText.value = ''
-    }
-    
+li.addEventListener('dblclick', ()=> li.remove())
+   
+listText.appendChild(li);
+inpText.value = ''
+}
 }
 
 // const titleElement = document.getElementById('title');
