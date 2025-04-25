@@ -23,7 +23,7 @@ addUserBtn.textContent = 'Добавить нового пользователя
 const delUserBtn = document.createElement('button');
 delUserBtn.textContent = 'Удалить последнего пользователя';
 
-document.body.append(addUserBtn, delUserBtn, userList);
+
 
 
 
@@ -39,23 +39,75 @@ addUserBtn.addEventListener('click', () => {
 })
 
 delUserBtn.addEventListener('click', () => {
-    if(users != '') {
+    if (users != '') {
         console.log(users);
-            users.pop(users)
-    document.getElementById('userList').remove()
-    renderUsers()} 
+        users.pop(users)
+        document.getElementById('userList').remove()
+        renderUsers()
+    }
     else {
         alert('Список пуст');
     }
 })
 
 
+const allButtons = document.querySelectorAll('button');
+
+function allFontSize(fontSize) {
+    allButtons.forEach(button => {
+        button.style.fomtSize = fontSize + 'px';
+    });
+}
+
+const settingsForm = document.getElementById('settingsForm')
+
+settingsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const userName = document.getElementById('userName').value;
+    const bgColor = document.getElementById('bgColor').value;
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('bgColor', bgColor);
+    document.body.style.backgroundColor = bgColor;
+    alert(`Настройки сохраненны, ${userName}!`)
+})
+
+if (localStorage.getItem('bgColor')) {
+    document.body.style.backgroundColor = localStorage.getItem('bgColor')
+}
+
+const btnSizeText = document.createElement('button');
+btnSizeText.textContent = 'Размер шрифта';
+const inputSizeText = document.createElement('input');
+inputSizeText.type = 'number'
+inputSizeText.id = 'inputSizeText';
+inputSizeText.style.width = '50px';
+
+btnSizeText.addEventListener('click', () => {
+    if (inputSizeText) {
+        const inputSizeText = document.getElementById('inputSizeText').value;
+        document.body.style.fontSize = `${inputSizeText}px`;
+        allFontSize(inputSizeText)
+        localStorage.setItem('inputSizeText', inputSizeText); 
+    }
+    function allFontSize(fontSize) {
+        allButtons.forEach(button => {
+            button.style.fomtSize = fontSize + 'px';
+        });
+    }
+})
+
+
+if (localStorage.getItem('inputSizeText')) {
+    const iST = localStorage.getItem('inputSizeText');
+    document.body.style.fontSize = `${iST}px`;
+    
+}
 
 
 
 
-
-
+document.body.append(inputSizeText, btnSizeText, addUserBtn, delUserBtn, userList);
 
 
 // const inpText = document.createElement('input');
