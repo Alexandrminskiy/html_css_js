@@ -1,114 +1,192 @@
-const users = [
-    { id: 1, name: 'Алексей', age: 25 },
-    { id: 2, name: 'Мария', age: 32 },
-    { id: 3, name: 'Ирина', age: 28 }
-];
+// let products = ['Яблоки', 'Хлеб', 'Молоко', 'Сыр'];
 
-function renderUsers() {
-    const userList = document.createElement('ul');
-    userList.id = 'userList'
-    document.body.append(userList)
+// products.push('Торт');
+// products.shift();
+// products.unshift('сыр')
+// console.log(products);
 
-    users.forEach(user => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${user.name}</strong> ${user.age}`
-        userList.appendChild(li)
-    })
-    console.log();
-}
-renderUsers()
+// let books = {
+//     title:'Название',
+//     autors: 'Автор',
+// pages: 'Количество страниц'
+// }
 
-const addUserBtn = document.createElement('button');
-addUserBtn.textContent = 'Добавить нового пользователя';
-const delUserBtn = document.createElement('button');
-delUserBtn.textContent = 'Удалить последнего пользователя';
+// books.isRead = false;
 
+// console.log(books);
+
+let movies = [
+    {title:'Сумерки', year: 2009, rating: 5},
+    {title:'Zero', year: 2015, rating: 7}
+]
+
+console.log(movies[1].title);
 
 
 
+// const users = [
+//     { id: 1, name: 'Алексей', age: 25 },
+//     { id: 2, name: 'Мария', age: 32 },
+//     { id: 3, name: 'Ирина', age: 28 }
+// ];
 
-addUserBtn.addEventListener('click', () => {
-    const newUser = {
-        id: users.length + 1,
-        name: `Пользователь ${users.length + 1}`,
-        age: Math.floor(Math.random() * 20) + 18
-    };
-    users.push(newUser);
-    document.getElementById('userList').remove()
-    renderUsers()
-})
+// function renderUsers() {
+//     const userList = document.createElement('ul');
+//     userList.id = 'userList'
+//     document.body.append(userList)
 
-delUserBtn.addEventListener('click', () => {
-    if (users != '') {
-        console.log(users);
-        users.pop(users)
-        document.getElementById('userList').remove()
-        renderUsers()
-    }
-    else {
-        alert('Список пуст');
-    }
-})
+//     users.forEach(user => {
+//         const li = document.createElement('li');
+//         li.innerHTML = `<strong>${user.name}</strong> ${user.age}`
+//         userList.appendChild(li)
+//     })
+//     console.log();
+// }
+// renderUsers()
 
-
-const allButtons = document.querySelectorAll('button');
-
-function allFontSize(fontSize) {
-    allButtons.forEach(button => {
-        button.style.fomtSize = fontSize + 'px';
-    });
-}
-
-const settingsForm = document.getElementById('settingsForm')
-
-settingsForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const userName = document.getElementById('userName').value;
-    const bgColor = document.getElementById('bgColor').value;
-    localStorage.setItem('userName', userName);
-    localStorage.setItem('bgColor', bgColor);
-    document.body.style.backgroundColor = bgColor;
-    alert(`Настройки сохраненны, ${userName}!`)
-})
-
-if (localStorage.getItem('bgColor')) {
-    document.body.style.backgroundColor = localStorage.getItem('bgColor')
-}
-
-const btnSizeText = document.createElement('button');
-btnSizeText.textContent = 'Размер шрифта';
-const inputSizeText = document.createElement('input');
-inputSizeText.type = 'number'
-inputSizeText.id = 'inputSizeText';
-inputSizeText.style.width = '50px';
-
-btnSizeText.addEventListener('click', () => {
-    if (inputSizeText) {
-        const inputSizeText = document.getElementById('inputSizeText').value;
-        document.body.style.fontSize = `${inputSizeText}px`;
-        allFontSize(inputSizeText)
-        localStorage.setItem('inputSizeText', inputSizeText); 
-    }
-    function allFontSize(fontSize) {
-        allButtons.forEach(button => {
-            button.style.fomtSize = fontSize + 'px';
-        });
-    }
-})
+// const addUserBtn = document.createElement('button');
+// addUserBtn.textContent = 'Добавить нового пользователя';
+// const delUserBtn = document.createElement('button');
+// delUserBtn.textContent = 'Удалить последнего пользователя';
 
 
-if (localStorage.getItem('inputSizeText')) {
-    const iST = localStorage.getItem('inputSizeText');
-    document.body.style.fontSize = `${iST}px`;
+
+
+
+// addUserBtn.addEventListener('click', () => {
+//     const newUser = {
+//         id: users.length + 1,
+//         name: `Пользователь ${users.length + 1}`,
+//         age: Math.floor(Math.random() * 20) + 18
+//     };
+//     users.push(newUser);
+//     document.getElementById('userList').remove()
+//     renderUsers()
+// })
+
+// delUserBtn.addEventListener('click', () => {
+//     if (users != '') {
+//         console.log(users);
+//         users.pop(users)
+//         document.getElementById('userList').remove()
+//         renderUsers()
+//     }
+//     else {
+//         alert('Список пуст');
+//     }
+// })
+
+
+// const allButtons = document.querySelectorAll('button');
+
+// function allFontSize(fontSize) {
+//     allButtons.forEach(button => {
+//         button.style.fomtSize = fontSize + 'px';
+//     });
+// }
+
+// const settingsForm = document.getElementById('settingsForm')
+
+// settingsForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+
+//     const userName = document.getElementById('userName').value;
+//     const bgColor = document.getElementById('bgColor').value;
+//     localStorage.setItem('userName', userName);
+//     localStorage.setItem('bgColor', bgColor);
+//     document.body.style.backgroundColor = bgColor;
+//     alert(`Настройки сохраненны, ${userName}!`)
+// })
+
+// if (localStorage.getItem('bgColor')) {
+//     document.body.style.backgroundColor = localStorage.getItem('bgColor')
+// }
+
+// const btnSizeText = document.createElement('button');
+// btnSizeText.textContent = 'Размер шрифта';
+// const inputSizeText = document.createElement('input');
+// inputSizeText.type = 'number'
+// inputSizeText.id = 'inputSizeText';
+// inputSizeText.style.width = '50px';
+
+// btnSizeText.addEventListener('click', () => {
+//     if (inputSizeText) {
+//         const inputSizeText = document.getElementById('inputSizeText').value;
+//         document.body.style.fontSize = `${inputSizeText}px`;
+//         allFontSize(inputSizeText)
+//         localStorage.setItem('inputSizeText', inputSizeText); 
+//     }
+//     function allFontSize(fontSize) {
+//         allButtons.forEach(button => {
+//             button.style.fomtSize = fontSize + 'px';
+//         });
+//     }
+// })
+
+
+// if (localStorage.getItem('inputSizeText')) {
+//     const iST = localStorage.getItem('inputSizeText');
+//     document.body.style.fontSize = `${iST}px`;
     
-}
+// }
 
+// document.body.append(inputSizeText, btnSizeText, addUserBtn, delUserBtn, userList);
 
+// console.log('Старт');
+// setTimeout(()=>{
+//     console.log('Сообщение через 2 секунды'); 
+// }, 2000);
+// console.log('Конец');
 
+// fetch('https://jsonplaceholder.typicode.com/posts/1')
+// .then(responce => responce.json())
+// .then(data => {
+//     console.log('Загруженный контент:', data);
+//     const postDiv = document.createElement('div');
+//     postDiv.innerHTML = `<h3>${data.title}</h3><p>${data.body}</p>`;
+//     document.body.appendChild(postDiv)
+// })
+// .catch(error=>console.error('Ошибка:', error));
 
-document.body.append(inputSizeText, btnSizeText, addUserBtn, delUserBtn, userList);
+// const btnNewPost = document.createElement('button');
+// btnNewPost.textContent = 'Получить новый пост';
 
+// const loadingIndicator = document.createElement('p');
+// loadingIndicator.textContent = ('Загрузка');
+// loadingIndicator.style.display = 'none';
+
+// const postContainer = document.createElement('div');
+
+// document.body.append(btnNewPost, loadingIndicator, postContainer);
+
+// function getPostRandom(){
+//     loadingIndicator.style.display='block';
+//     postContainer.innerText='';
+
+//     const randomPostId = Math.floor(Math.random()*100)+1;
+
+//     fetch(`https://jsonplaceholder.typicode.com/posts/${randomPostId}`)
+//     .then(Response =>{
+//         if(!Response.ok){
+//         throw new Error('Постт не найден');
+//         }
+//         return Response.json();
+//     })
+//     .then(data => {
+//         console.log("Загруженный пост:", data);
+//         const postDiv = document.createElement("div");
+//         postDiv.innerHTML = `<h3>${data.title}</h3><p>${data.body}</p>`;
+//         postContainer.appendChild(postDiv);
+//       })
+//       .catch(error => {
+//         console.error("Ошибка:", error);
+//         postContainer.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
+//       })
+//       .finally(() => {
+      
+//         loadingIndicator.style.display = 'none';
+//       });
+//   }btnNewPost.addEventListener('click', getPostRandom);
 
 // const inpText = document.createElement('input');
 // inpText.placeholder = 'Введите текст'
