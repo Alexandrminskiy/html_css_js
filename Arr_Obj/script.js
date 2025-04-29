@@ -15,16 +15,69 @@
 
 // console.log(books);
 
-let movies = [
-    {title:'Сумерки', year: 2009, rating: 5},
-    {title:'Zero', year: 2015, rating: 7}
-]
+// let movies = [
+//     {title:'Сумерки', year: 2009, rating: 5},
+//     {title:'Zero', year: 2015, rating: 7}
+// ]
 
-console.log(movies[1].title);
+// console.log(movies[1].title);
+
+// const cars = [
+//     { model: "Toyota", year: 2015 },
+//     { model: "BMW", year: 2022 },
+//     { model: "Audi", year: 2021 }
+// ];
+
+// const newCar = cars.filter(car=>car.year > 2020);
+// console.log(newCar);
+
+// const links = [
+//     {title: 'Google', url: 'https://www.google.ru/'},
+//     {title: 'Yandex', url: 'https://www.ya.ru/'},
+//     {title: 'Mail', url: 'https://www.mail.ru/'},
+//     {title: 'Rambler', url: 'https://www.rambler.ru/'},
+    
+// ];
+
+// const postLinks = document.createElement('ul');
+// document.body.append(postLinks)
+
+// links.forEach(arr=>{
+//     const li = document.createElement('li');
+//     li.innerHTML = `<a href="${arr.url}">${arr.title}</a>`
+//     postLinks.append(li);
+    
+// })
+// const products = [
+//     { name: "Яблоки", price: 280 },
+//     { name: "Бананы", price: 220 },
+//     { name: "Апельсины", price: 195}
+// ];
+
+// // products.sort((a, b) => a.price - b.price);
+// console.log(products.sort((a, b) => a.price - b.price));
+
+// const orders = [
+//     { id: 1, amount: 200 },
+//     { id: 2, amount: 350 },
+//     { id: 3, amount: 120 }
+// ];
+
+// const total =orders.reduce((x, n)=> x+n.amount, 0);
+// console.log(total);
+
+
+// const person = {
+//     firstName: "Иван",
+//     lastName: "Петров",
+//     age: 35}
+
+// const {firstName: name, age:year, ist='tae'} = person;
+// console.log(name, year, ist);
 
 
 
-// const users = [
+//  const users = [
 //     { id: 1, name: 'Алексей', age: 25 },
 //     { id: 2, name: 'Мария', age: 32 },
 //     { id: 3, name: 'Ирина', age: 28 }
@@ -215,4 +268,9 @@ console.log(movies[1].title);
 //     }
 // }
 
+
+const transactions = [
+    { id: 1, type: "income", amount: 1000, category: "Зарплата" },
+    { id: 2, type: "expense", amount: 300, category: "Еда" }
+];
 

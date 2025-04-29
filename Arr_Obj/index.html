@@ -9,13 +9,34 @@
 </head>
 
 <body>
-    <h2>Настройки</h2>
+    <h2>"Управление бюджетом"</h2>
     <form action="" id="settingsForm">
-        <input type="text" id="userName" placeholder="Ваше имя">
-        <input type="color" id="bgColor">
-        <button type="submit">Сохранить</button>
+
+        <input type="radio" id="incomeRadio" name="Доход">
+        <label for="incomeRadio">Доход</label>
+
+        <input type="radio" id="expenseRadio" name="Расход">
+        <label for="incomeRadio">Расход</label>
+        <br><br>
+        <lebel for="typeSelect">Выбирите из списка</lebel>
+        <br>
+
+        <select name="typeSelect" id="typeSelect" style="width: 75px;">
+        <option value="zp">ЗП</option>
+        <option value="pd">Подработка</option>
+        <option value="pn">Пенсия</option>
+        <option value="pr">Продажа</option>
+        <option value="dr">Другое</option>
+       </select>
+       <input type="number" id="amount" style="width: 70px;">
+        <button type="submit">добавить</button>
+
     </form>
+
+
+
     <script src="script.js"></script>
+
 </body>
 
 </html>
