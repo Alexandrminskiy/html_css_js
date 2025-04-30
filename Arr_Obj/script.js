@@ -284,7 +284,7 @@ function toggleForm() {
     } else if (expenseRadio.checked) {
         expenseForm.style.display = 'block';
         incomeForm.style.display = 'none';
-        console.log(incomeRadio.checked);
+        console.log(expenseRadio.checked);
     } else { // Если ни одна радиокнопка не выбрана
         incomeForm.style.display = 'none';
         expenseForm.style.display = 'none';
