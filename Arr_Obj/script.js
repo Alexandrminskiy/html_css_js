@@ -271,6 +271,7 @@
 
 const incomeRadio = document.getElementById('incomeRadio');
 const expenseRadio = document.getElementById('expenseRadio');
+
 const incomeForm = document.getElementById('incomeForm');
 const expenseForm = document.getElementById('expenseForm');
 
@@ -278,9 +279,12 @@ function toggleForm() {
     if (incomeRadio.checked) {
         incomeForm.style.display = 'block';
         expenseForm.style.display = 'none';
+        console.log(incomeRadio.checked);
+        
     } else if (expenseRadio.checked) {
         expenseForm.style.display = 'block';
         incomeForm.style.display = 'none';
+        console.log(incomeRadio.checked);
     } else { // Если ни одна радиокнопка не выбрана
         incomeForm.style.display = 'none';
         expenseForm.style.display = 'none';
