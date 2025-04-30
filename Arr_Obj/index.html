@@ -10,32 +10,40 @@
 
 <body>
     <h2>"Управление бюджетом"</h2>
-    <form action="" id="settingsForm">
-        <label>
-            <input type="radio" id="incomeRadio" name="balance">Доход
-        </label>
-
-        <label>
-            <input type="radio" id="expenseRadio" name="balance">Расход
-        </label>
-
-        <br><br>
-        <lebel for="typeSelect">Выбирите из списка</lebel>
-        <br>
-
-        <select name="typeSelect" id="typeSelect" style="width: 75px;">
+    <label>
+        <input type="radio" id="incomeRadio" name="balance" value="incomeRadio">Доход
+    </label>
+    
+    <label>
+        <input type="radio" id="expenseRadio" name="balance" value="expenseRadio">Расход
+    </label>
+    
+    <br><br>
+    <lebel for="typeSelect">Выбирите из списка</lebel>
+    <br>
+    
+    <form action="" id="incomeForm" style="display: none;">
+        <select name="typeSelect" id="incomeForm" style="width: 75px;">
             <option value="zp">ЗП</option>
             <option value="pd">Подработка</option>
             <option value="pn">Пенсия</option>
             <option value="pr">Продажа</option>
             <option value="dr">Другое</option>
         </select>
+
         <input type="number" id="amount" style="width: 70px;">
         <button type="submit">добавить</button>
-
     </form>
-
-
+    <form action="" id="expenseForm" style="display: none;">  
+    <select name="typeSelect" id="expenseForm" style="width: 75px;">
+        <option value="zp">Еда</option>
+        <option value="pd">Велосипед</option>
+        <option value="pn">Машина</option>
+        <option value="pr">Квартира</option>
+        <option value="dr">Другое</option>
+    </select>
+    </form>
+        
 
     <script src="script.js"></script>
 

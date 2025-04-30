@@ -36,7 +36,7 @@
 //     {title: 'Yandex', url: 'https://www.ya.ru/'},
 //     {title: 'Mail', url: 'https://www.mail.ru/'},
 //     {title: 'Rambler', url: 'https://www.rambler.ru/'},
-    
+
 // ];
 
 // const postLinks = document.createElement('ul');
@@ -46,7 +46,7 @@
 //     const li = document.createElement('li');
 //     li.innerHTML = `<a href="${arr.url}">${arr.title}</a>`
 //     postLinks.append(li);
-    
+
 // })
 // const products = [
 //     { name: "Яблоки", price: 280 },
@@ -180,7 +180,7 @@
 // if (localStorage.getItem('inputSizeText')) {
 //     const iST = localStorage.getItem('inputSizeText');
 //     document.body.style.fontSize = `${iST}px`;
-    
+
 // }
 
 // document.body.append(inputSizeText, btnSizeText, addUserBtn, delUserBtn, userList);
@@ -236,7 +236,7 @@
 //         postContainer.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
 //       })
 //       .finally(() => {
-      
+
 //         loadingIndicator.style.display = 'none';
 //       });
 //   }btnNewPost.addEventListener('click', getPostRandom);
@@ -269,8 +269,45 @@
 // }
 
 
+const incomeRadio = document.getElementById('incomeRadio');
+const expenseRadio = document.getElementById('expenseRadio');
+const incomeForm = document.getElementById('incomeForm');
+const expenseForm = document.getElementById('expenseForm');
+
+function toggleForm() {
+    if (incomeRadio.checked) {
+        incomeForm.style.display = 'block';
+        expenseForm.style.display = 'none';
+    } else if (expenseRadio.checked) {
+        expenseForm.style.display = 'block';
+        incomeForm.style.display = 'none';
+    } else { // Если ни одна радиокнопка не выбрана
+        incomeForm.style.display = 'none';
+        expenseForm.style.display = 'none';
+    }
+}
+
+// Добавляем обработчики событий к радиокнопкам
+incomeRadio.addEventListener('change', toggleForm);  // 'change' срабатывает при изменении состояния
+expenseRadio.addEventListener('change', toggleForm);
+
 const transactions = [
     { id: 1, type: "income", amount: 1000, category: "Зарплата" },
     { id: 2, type: "expense", amount: 300, category: "Еда" }
 ];
 
+function radioChoice() {
+    let radios = document.getElementsByName('balance');
+    let selectedValue = null;
+
+    for (const radio of radios) {
+        if (radio.checked) {
+            selectedValue = radio.value;
+            console.log(selectedValue);
+            break
+        }    
+}
+const btn = document.createElement('button');
+btn.textContent = 'Кнопка';
+document.body.append(btn)
+btn.addEventListener('click', radioChoice)}
