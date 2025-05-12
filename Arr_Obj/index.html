@@ -4,50 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Изучаем JS</title>
+    <title>Управление бюджетом</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h2>"Управление бюджетом"</h2>
+    <h2>Управление бюджетом</h2>
+
     <label>
-        <input type="radio" id="incomeRadio" name="balance" value="incomeRadio">Доход
+        <input type="radio" id="incomeRadio" name="balance" value="income"> Доход
     </label>
-    
+
     <label>
-        <input type="radio" id="expenseRadio" name="balance" value="expenseRadio">Расход
+        <input type="radio" id="expenseRadio" name="balance" value="expense"> Расход
     </label>
-    
+
     <br><br>
-    <lebel for="typeSelect">Выбирите из списка</lebel>
+
+    <label for="typeSelect">Выберите тип:</label>
     <br>
-    
-    <form action="" id="incomeForm" style="display: none;">
-        <select name="typeSelect" id="incomeForm" style="width: 75px;">
-            <option value="zp">ЗП</option>
+
+    <form id="incomeForm" style="display: none;">
+        <select name="typeSelect" id="incomeType" style="width: 75px;">
+            <option value="zp">Зарплата</option>
             <option value="pd">Подработка</option>
             <option value="pn">Пенсия</option>
             <option value="pr">Продажа</option>
             <option value="dr">Другое</option>
         </select>
 
-        <input type="number" id="amount" style="width: 70px; ">
-        <button type="submit">добавить</button>
+        <input type="number" id="incomeAmount" style="width: 70px;" placeholder="Сумма">
+        <button type="submit">Добавить</button>
     </form>
-    <form action="" id="expenseForm" style="display: none;">  
-    <select name="typeSelect" id="expenseForm" style="width: 75px;">
-        <option value="zp">Еда</option>
-        <option value="pd">Велосипед</option>
-        <option value="pn">Машина</option>
-        <option value="pr">Квартира</option>
-        <option value="dr">Другое</option>
-    </select>
-    <input type="number" id="amount" style="width: 70px;">
-    <button type="submit">добавить</button>
+
+    <form id="expenseForm" style="display: none;">
+        <select name="typeSelect" id="expenseType" style="width: 75px;">
+            <option value="eda">Еда</option>
+            <option value="vel">Велосипед</option>
+            <option value="auto">Машина</option>
+            <option value="kv">Квартира</option>
+            <option value="dr">Другое</option>
+        </select>
+        <input type="number" id="expenseAmount" style="width: 70px;" placeholder="Сумма">
+        <button type="submit">Добавить</button>
     </form>
-        
 
     <script src="script.js"></script>
+    <script src="indexdb.js"></script>
 
 </body>
 
