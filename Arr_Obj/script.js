@@ -16,66 +16,66 @@ expenseRadio.addEventListener('change', toggleForm);
 
 
 // Обработчик отправки формы доходов
-incomeForm.addEventListener('submit', function (event) {
-    event.preventDefault(); // Предотвращаем стандартную отправку формы
+// incomeForm.addEventListener('submit', function (event) {
+//     event.preventDefault(); // Предотвращаем стандартную отправку формы
 
-    const type = document.getElementById('incomeType');
-    const selectedText = type.options[type.selectedIndex].text;
-    const amount = (document.getElementById('incomeAmount').value);
+//     const type = document.getElementById('incomeType');
+//     const selectedText = type.options[type.selectedIndex].text;
+//     const amount = (document.getElementById('incomeAmount').value);
 
 
 
-    if (isNaN(amount) || amount <= 0) {
-        alert('Пожалуйста, введите корректную сумму дохода.');
-        return;
-    }
+//     if (isNaN(amount) || amount <= 0) {
+//         alert('Пожалуйста, введите корректную сумму дохода.');
+//         return;
+//     }
 
     // Здесь можно добавить логику для сохранения данных о доходе
-    console.log('Доход:', type, amount);
-    let incomeObj = { selectedText, amount }
+    // console.log('Доход:', type, amount);
+    // let incomeObj = { selectedText, amount }
 
     // Получаем существующий массив доходов из localStorage (если есть)
-    let incomes = localStorage.getItem('incomeObj');
+    // let incomes = localStorage.getItem('incomeObj');
 
-    incomes = incomes ? JSON.parse(incomes) : [];
+    // incomes = incomes ? JSON.parse(incomes) : [];
     // Добавляем новый объект дохода в массив
-    incomes.push(incomeObj);
+    // incomes.push(incomeObj);
 
-    localStorage.setItem('incomeObj', JSON.stringify(incomes)); 
-
-
-
-    // Очищаем поля формы после добавления
-    document.getElementById('incomeAmount').value = '';
-});
-
-
-function getIncomesFromLocalStorage() {
-    const incomesString = localStorage.getItem('incomeObj');
-    return incomesString ? JSON.parse(incomesString) : [];
-}
-
-const allIncomes = getIncomesFromLocalStorage();
-console.log('Все доходы:', allIncomes);
+    // localStorage.setItem('incomeObj', JSON.stringify(incomes)); 
 
 
 
+    // // Очищаем поля формы после добавления
+    // document.getElementById('incomeAmount').value = '';
+// });
 
-// Обработчик отправки формы расходов
-expenseForm.addEventListener('submit', function (event) {
-    event.preventDefault(); // Предотвращаем стандартную отправку формы
 
-    const type = document.getElementById('expenseType').value;
-    const amount = parseFloat(document.getElementById('expenseAmount').value);
+// function getIncomesFromLocalStorage() {
+//     const incomesString = localStorage.getItem('incomeObj');
+//     return incomesString ? JSON.parse(incomesString) : [];
+// }
 
-    if (isNaN(amount) || amount <= 0) {
-        alert('Пожалуйста, введите корректную сумму расхода.');
-        return;
-    }
+// const allIncomes = getIncomesFromLocalStorage();
+// console.log('Все доходы:', allIncomes);
 
-    // Здесь можно добавить логику для сохранения данных о расходе
-    console.log('Расход:', type, amount);
 
-    // Очищаем поля формы после добавления
-    document.getElementById('expenseAmount').value = '';
-});
+
+
+// // Обработчик отправки формы расходов
+// expenseForm.addEventListener('submit', function (event) {
+//     event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+//     const type = document.getElementById('expenseType').value;
+//     const amount = parseFloat(document.getElementById('expenseAmount').value);
+
+//     if (isNaN(amount) || amount <= 0) {
+//         alert('Пожалуйста, введите корректную сумму расхода.');
+//         return;
+//     }
+
+//     // Здесь можно добавить логику для сохранения данных о расходе
+//     console.log('Расход:', type, amount);
+
+//     // Очищаем поля формы после добавления
+//     document.getElementById('expenseAmount').value = '';
+// });
