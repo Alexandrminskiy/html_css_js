@@ -5,8 +5,6 @@ btn.textContent = 'Добавить в базу'
 
 document.body.append(input, btn)
 
-
-
 let database;
 const request = indexedDB.open('TestD, 1');
 
@@ -29,8 +27,6 @@ request.onsuccess = (event) => {
     console.log('База успешно открыта');
 };
 
-
-
 btn.addEventListener('click', () => {
     let inputElement = document.getElementById('input').value;
     console.log(inputElement);
@@ -46,20 +42,30 @@ btn.addEventListener('click', () => {
 
 })
 
-
 // Вывод
 
 const btnOutput = document.createElement('button');
-btnOutput.textContent = 'Вывод данных'
-document.body.append(btnOutput)
+btnOutput.textContent = 'Вывод данных';
+// Создаем элемент для вывода данных
+const outputDiv = document.createElement('div');
+outputDiv.id = 'output';
+document.body.append(btnOutput, outputDiv);
 
 function dataOutput() {
-const tx = database.transaction('transactions', 'readonly');
-const store = tx.objectStore('transactions');
-console.log(tx, store);
 
-const request = store.getAll();
+    const tx = database.transaction('transactions', 'readonly');
+    const store = tx.objectStore('transactions');
+    const request = store.getAll();
 
+    // Обработка успешного получения данных
+    request.onsuccess = () => {
+        // Формируем HTML для вывода
+        let html = '<h3>Данные из базы:</h3><ul>';
+        request.result.forEach(item => {
+            html += `<li>Элемент: ${item.Element}</li>`;
+        });        
+        outputDiv.innerHTML = html;
+    };
 }
 
-btnOutput.addEventListener('click', dataOutput)
+btnOutput.addEventListener('click', dataOutput);
