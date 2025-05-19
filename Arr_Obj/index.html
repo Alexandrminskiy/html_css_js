@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление бюджетом</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h2>Управление бюджетом</h2>
 
     <label>
-        <input type="radio" id="incomeRadio" name="balance" value="income"> Доход
+        <input type="radio" id="incomeRadio" name="balance" value="income" checked> Доход
     </label>
-
     <label>
         <input type="radio" id="expenseRadio" name="balance" value="expense"> Расход
     </label>
 
     <br><br>
 
-    <label for="typeSelect">Выберите тип:</label>
-    <br>
-
-    <form id="incomeForm" style="display: none;">
-        <select name="typeSelect" id="incomeType" style="width: 75px;">
+    <form id="incomeForm">
+        <select name="typeSelect" id="incomeType" style="width: 150px;">
             <option value="zp">Зарплата</option>
             <option value="pd">Подработка</option>
             <option value="pn">Пенсия</option>
             <option value="pr">Продажа</option>
             <option value="dr">Другое</option>
         </select>
-
-        <input type="number" id="incomeAmount" style="width: 70px;" placeholder="Сумма">
+        <button type="button" id="addIncomeCategory">+</button>
+        <input type="number" id="incomeAmount" placeholder="Сумма">
         <button type="submit">Добавить</button>
     </form>
 
     <form id="expenseForm" style="display: none;">
-        <select name="typeSelect" id="expenseType" style="width: 75px;">
+        <select name="typeSelect" id="expenseType" style="width: 150px;">
             <option value="eda">Еда</option>
             <option value="vel">Велосипед</option>
             <option value="auto">Машина</option>
             <option value="kv">Квартира</option>
             <option value="dr">Другое</option>
         </select>
-        <input type="number" id="expenseAmount" style="width: 70px;" placeholder="Сумма">
+        <button type="button" id="addExpenseCategory">+</button>
+        <input type="number" id="expenseAmount" placeholder="Сумма">
         <button type="submit">Добавить</button>
     </form>
 
-<div id="transactionsOutput"></div>
-<button onclick="displayAllTransactions()">Показать все транзакции</button>
+    <div id="transactionsOutput"></div>
+    <button id="refreshBtn">Показать все транзакции</button>
 
-    <script src="script.js" defer></script>
-    <script src="indexdb.js" defer></script>
+    <div id="categoryModal" style="display: none;">
+        <h3>Добавить новую категорию</h3>
+        <input type="text" id="newCategoryName" placeholder="Название категории">
+        <button id="saveCategoryBtn">Сохранить</button>
+        <button id="cancelCategoryBtn">Отмена</button>
+    </div>
 
+    
+
+    <script src="/Arr_Obj/indexdb.js"></script>
 </body>
 </html>

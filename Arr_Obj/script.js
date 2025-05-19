@@ -14,68 +14,62 @@ function toggleForm() {
 incomeRadio.addEventListener('change', toggleForm);
 expenseRadio.addEventListener('change', toggleForm);
 
+// Обновление select
+function updateCategorySelect(selectId, categories) {
+    const select = document.getElementById(selectId); // Исправлено: selectId вместо select
+    if (select) {
+        select.innerHTML = categories.map(cat =>
+            `<option value="${cat.value}">${cat.text}</option>`
+        ).join('');
+    }
+}
 
-// Обработчик отправки формы доходов
-// incomeForm.addEventListener('submit', function (event) {
-//     event.preventDefault(); // Предотвращаем стандартную отправку формы
+let currentCategoryType; // 'income' или 'expense'
 
-//     const type = document.getElementById('incomeType');
-//     const selectedText = type.options[type.selectedIndex].text;
-//     const amount = (document.getElementById('incomeAmount').value);
+// Открытие модального окна
+function showCategoryModal(type) {
+    currentCategoryType = type;
+    const modal = document.getElementById('categoryModal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
 
+// Закрытие модального окна
+const closeModalBtn = document.getElementById('cancelCategoryBtn'); // Исправлено: используем существующий элемент из HTML
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+        const modal = document.getElementById('categoryModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
 
-
-//     if (isNaN(amount) || amount <= 0) {
-//         alert('Пожалуйста, введите корректную сумму дохода.');
-//         return;
-//     }
-
-    // Здесь можно добавить логику для сохранения данных о доходе
-    // console.log('Доход:', type, amount);
-    // let incomeObj = { selectedText, amount }
-
-    // Получаем существующий массив доходов из localStorage (если есть)
-    // let incomes = localStorage.getItem('incomeObj');
-
-    // incomes = incomes ? JSON.parse(incomes) : [];
-    // Добавляем новый объект дохода в массив
-    // incomes.push(incomeObj);
-
-    // localStorage.setItem('incomeObj', JSON.stringify(incomes)); 
-
-
-
-    // // Очищаем поля формы после добавления
-    // document.getElementById('incomeAmount').value = '';
-// });
-
-
-// function getIncomesFromLocalStorage() {
-//     const incomesString = localStorage.getItem('incomeObj');
-//     return incomesString ? JSON.parse(incomesString) : [];
-// }
-
-// const allIncomes = getIncomesFromLocalStorage();
-// console.log('Все доходы:', allIncomes);
-
-
-
-
-// // Обработчик отправки формы расходов
-// expenseForm.addEventListener('submit', function (event) {
-//     event.preventDefault(); // Предотвращаем стандартную отправку формы
-
-//     const type = document.getElementById('expenseType').value;
-//     const amount = parseFloat(document.getElementById('expenseAmount').value);
-
-//     if (isNaN(amount) || amount <= 0) {
-//         alert('Пожалуйста, введите корректную сумму расхода.');
-//         return;
-//     }
-
-//     // Здесь можно добавить логику для сохранения данных о расходе
-//     console.log('Расход:', type, amount);
-
-//     // Очищаем поля формы после добавления
-//     document.getElementById('expenseAmount').value = '';
-// });
+// Сохранение новой категории
+const saveCategoryBtn = document.getElementById('saveCategoryBtn');
+if (saveCategoryBtn) {
+    saveCategoryBtn.addEventListener('click', () => {
+        const nameInput = document.getElementById('newCategoryName');
+        if (nameInput) {
+            const name = nameInput.value.trim();
+            if (name) {
+                const newCategory = {
+                    value: name.toLowerCase().replace(/\s+/g, '_'),
+                    text: name
+                };
+                
+                addCategory(currentCategoryType, newCategory, (success) => {
+                    if (success) {
+                        loadCategoriesToSelects();
+                        const modal = document.getElementById('categoryModal');
+                        if (modal) modal.style.display = 'none';
+                        if (nameInput) nameInput.value = '';
+                    } else {
+                        alert('Категория уже существует!');
+                    }
+                });
+            }
+        }
+    });
+}
