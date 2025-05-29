@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление бюджетом</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h2>Управление бюджетом</h2>
 
@@ -31,13 +33,13 @@
                 <select id="incomeType" class="category-select">
                     <!-- Категории будут загружаться из БД -->
                 </select>
-                
+
                 <!-- Кнопка добавления категории -->
                 <button type="button" id="addIncomeCategory" class="add-category-btn">+</button>
-                
+
                 <!-- Поле для суммы дохода -->
                 <input type="number" id="incomeAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
-                
+
                 <!-- Кнопка добавления дохода -->
                 <button type="submit" class="submit-btn">Добавить</button>
             </div>
@@ -50,13 +52,13 @@
                 <select id="expenseType" class="category-select">
                     <!-- Категории будут загружаться из БД -->
                 </select>
-                
+
                 <!-- Кнопка добавления категории -->
                 <button type="button" id="addExpenseCategory" class="add-category-btn">+</button>
-                
+
                 <!-- Поле для суммы расхода -->
                 <input type="number" id="expenseAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
-                
+
                 <!-- Кнопка добавления расхода -->
                 <button type="submit" class="submit-btn">Добавить</button>
             </div>
@@ -65,24 +67,26 @@
 
     <!-- Блок для вывода списка всех транзакций -->
     <div id="transactionsOutput"></div>
-    
+
     <!-- Кнопка обновления списка транзакций -->
     <button id="refreshBtn" class="refresh-btn">Обновить список</button>
 
-   <!-- Модальное окно для добавления новых категорий -->
-<div id="categoryModal" class="modal">
-    <div class="modal-content">
-        <h3>Новая категория</h3>
-        <input type="text" id="newCategoryName" placeholder="Например: Зарплата, Продукты...">
-        <div class="modal-buttons">
-            <button id="cancelCategoryBtn" class="modal-btn cancel-btn">Отмена</button>
-            <button id="saveCategoryBtn" class="modal-btn save-btn">Добавить</button>
+    <!-- Модальное окно для добавления новых категорий -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h3>Новая категория</h3>
+            <input type="text" id="newCategoryName" placeholder="Например: Зарплата, Продукты...">
+            <div class="modal-buttons">
+                <button id="cancelCategoryBtn" class="modal-btn cancel-btn">Отмена</button>
+                <button id="saveCategoryBtn" class="modal-btn save-btn">Добавить</button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Подключаем скрипты -->
     <script src="indexdb.js"></script>
+    <script src="modalcategory.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
