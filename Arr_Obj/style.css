@@ -1,97 +1,424 @@
+/* Общие стили */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 0;
-}
-
-form {
-    margin: 15px 0;
-    padding: 10px;
-    background: #f5f5f5;
-    border-radius: 5px;
-}
-
-input[type="number"] {
-    padding: 5px;
-    margin: 0 10px;
-    width: 100px;
-}
-
-button {
-    padding: 5px 15px;
-    cursor: pointer;
-}
-
-#incomeForm, #expenseForm {
-    margin: 15px 0;
-}
-
-#categoryModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+    margin: 0;
     padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    z-index: 1000;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.income-row {
-    background-color: #e6f7e6;
+h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
 }
 
-.expense-row {
-    background-color: #ffe6e6;
+/* Контейнер форм */
+.form-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
 }
 
-.positive {
-    color: green;
-    font-weight: bold;
+/* Стили для форм */
+.transaction-form {
+    margin-bottom: 15px;
 }
 
-.negative {
-    color: red;
-    font-weight: bold;
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Стили для переключателя доход/расход */
+.radio-group {
+    display: flex;
+    background: #ecf0f1;
+    border-radius: 6px;
+    padding: 4px;
+    border: 1px solid #ddd;
+}
+
+.radio-button {
+    position: relative;
+    cursor: pointer;
+    flex: 1;
+}
+
+.radio-button input {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-label {
+    display: block;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.radio-label.income {
+    color: #27ae60;
+}
+
+.radio-label.expense {
+    color: #e74c3c;
+}
+
+.radio-button input:checked + .radio-label {
+    background: #3498db;
+    color: white;
+}
+
+/* Стили для выпадающего списка */
+.category-select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 180px;
+    height: 40px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    background-color: white;
+    transition: border-color 0.3s;
+}
+
+.category-select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Стили для поля ввода суммы */
+.amount-input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 120px;
+    height: 40px;
+    transition: border-color 0.3s;
+}
+
+.amount-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Стили для кнопок */
+.add-category-btn,
+.submit-btn,
+.refresh-btn,
+.modal-btn {
+    padding: 10px 15px;
+    height: 40px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-category-btn {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    width: 40px;
+}
+
+.add-category-btn:hover {
+    background-color: #d5dbdb;
+}
+
+.submit-btn {
+    background-color: #2ecc71;
+    color: white;
+    min-width: 100px;
+}
+
+.submit-btn:hover {
+    background-color: #27ae60;
+}
+
+.refresh-btn {
+    background-color: #3498db;
+    color: white;
+    margin: 20px auto;
+    display: block;
+    width: 200px;
+}
+
+.refresh-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для таблицы транзакций */
+#transactionsOutput {
+    margin-top: 30px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px 15px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #3498db;
+    color: white;
+    font-weight: 500;
 }
 
-.totals {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
+/* Стили для строк доходов/расходов */
+.income-row {
+    background-color: rgba(46, 204, 113, 0.05);
 }
-#categoryModal {
+
+.expense-row {
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.income-row:hover, .expense-row:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Стили для цветовых обозначений */
+.positive {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.negative {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+/* Стили для блока с итогами */
+.summary {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 120px;
+}
+
+.summary-item span:first-child {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+.summary-item span:last-child {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.summary-item.balance {
+    flex-basis: 100%;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Стили для модального окна */
+.modal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+    transition: all 0.3s ease;
 }
 
 .modal-content {
     background: white;
-    margin: 100px auto;
-    padding: 20px;
-    width: 300px;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal h3 {
+    margin: 0 0 20px;
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Поле ввода названия категории */
+#newCategoryName {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 25px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+#newCategoryName:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Кнопки модального окна */
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.save-btn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background-color: #f5f5f5;
+    color: #555;
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Анимация появления */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .radio-group {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .category-select,
+    .amount-input,
+    .add-category-btn,
+    .submit-btn {
+        width: 100%;
+    }
+    
+    .summary-item {
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+    
+    .summary {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .summary-item {
+        flex-basis: 100%;
+    }
+}
+/* Для мобильных устройств */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 25px 20px;
+        margin: 0 15px;
+    }
+    
+    .modal-buttons {
+        gap: 8px;
+    }
+    
+    .modal-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
 }
