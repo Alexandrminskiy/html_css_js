@@ -1,5 +1,5 @@
-// // Глобальная переменная для хранения текущего типа категории (доход/расход)
-// let currentCategoryType = 'income';
+// Глобальная переменная для хранения текущего типа категории (доход/расход)
+window.currentCategoryType = 'income';
 
 // Ждем полной загрузки DOM перед выполнением скриптов
 document.addEventListener('DOMContentLoaded', async () => {

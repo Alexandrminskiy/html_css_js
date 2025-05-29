@@ -1,12 +1,9 @@
-// Глобальная переменная для хранения текущего типа категории (доход/расход)
-let currentCategoryType = 'income';
-
 /**
  * Показывает модальное окно для добавления категории
  * @param {string} type - Тип категории ('income' или 'expense')
  */
 function showCategoryModal(type) {
-    currentCategoryType = type;
+    window.currentCategoryType = type; // Используем window для глобальной переменной
     const modal = document.getElementById('categoryModal');
     modal.style.display = 'flex';
     setTimeout(() => {
@@ -42,13 +39,13 @@ async function saveCategory() {
     
     // Создаем объект новой категории
     const newCategory = {
-        value: name.toLowerCase().replace(/\s+/g, '_'), // Формируем значение (без пробелов)
-        text: name // Отображаемое название
+        value: name.toLowerCase().replace(/\s+/g, '_'),
+        text: name
     };
     
     try {
         // Получаем текущие категории этого типа
-        const categories = await getCategories(currentCategoryType);
+        const categories = await getCategories(window.currentCategoryType);
         
         // Проверяем, что такой категории еще нет
         if (categories.some(cat => cat.value === newCategory.value)) {
@@ -58,10 +55,12 @@ async function saveCategory() {
         
         // Добавляем новую категорию и сохраняем
         categories.push(newCategory);
-        await updateCategories(currentCategoryType, categories);
+        await updateCategories(window.currentCategoryType, categories);
         
         // Обновляем выпадающий список
-        await loadCategories();
+        if (typeof loadCategories === 'function') {
+            await loadCategories();
+        }
         
         // Закрываем модальное окно
         hideCategoryModal();
