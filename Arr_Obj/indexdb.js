@@ -134,3 +134,19 @@ function updateCategories(type, categories) {
         request.onerror = (event) => reject(event.target.error);
     });
 }
+
+/**
+ * Обновление существующей транзакции
+ * @param {Object} transaction Обновленный объект транзакции
+ * @returns {Promise} Промис, который разрешается при успешном обновлении
+ */
+function updateTransaction(transaction) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('transactions', 'readwrite');
+        const store = tx.objectStore('transactions');
+        const request = store.put(transaction);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
