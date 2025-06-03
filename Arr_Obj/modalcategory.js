@@ -30,15 +30,7 @@ async function loadCategoryList(type) {
     const categoryList = document.getElementById('categoryList');
     
     categoryList.innerHTML = `
-<<<<<<< HEAD
                 <ul class="categories-list">
-=======
-        <div class="add-category-form">
-            <input type="text" id="newCategoryName" placeholder="Введите название категории">
-            <button id="addCategoryBtn" class="action-btn add-btn">+ Добавить</button>
-        </div>
-        <ul class="categories-list">
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
             ${categories.map(cat => `
                 <li class="category-item" data-value="${cat.value}">
                     <span class="category-name">${cat.text}</span>
@@ -135,7 +127,6 @@ async function addNewCategory() {
  * Редактирует существующую категорию
  */
 async function editCategory(categoryValue) {
-<<<<<<< HEAD
     try {
         const categories = await getCategories(currentCategoryType);
         const category = categories.find(cat => cat.value === categoryValue);
@@ -173,20 +164,6 @@ async function editCategory(categoryValue) {
         // Обновляем категорию
         const updatedCategories = categories.map(cat => 
             cat.value === categoryValue ? { ...cat, text: trimmedName } : cat
-=======
-    const categories = await getCategories(currentCategoryType);
-    const category = categories.find(cat => cat.value === categoryValue);
-    
-    if (!category) return;
-    
-    const newName = prompt('Введите новое название категории:', category.text);
-    if (!newName || newName.trim() === '') return;
-    
-    try {
-        // Обновляем категорию
-        const updatedCategories = categories.map(cat => 
-            cat.value === categoryValue ? { ...cat, text: newName } : cat
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
         );
         
         await updateCategories(currentCategoryType, updatedCategories);
@@ -195,7 +172,6 @@ async function editCategory(categoryValue) {
         await updateTransactionsWithNewCategory(
             categoryValue,
             categoryValue,
-<<<<<<< HEAD
             trimmedName
         );
         
@@ -203,26 +179,13 @@ async function editCategory(categoryValue) {
         await loadCategoryList(currentCategoryType);
         
         // Обновляем выпадающие списки в формах, если функция существует
-=======
-            newName
-        );
-        
-        // Обновляем список категорий
-        await loadCategoryList(currentCategoryType);
-        
-        // Обновляем выпадающие списки в формах
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
         if (typeof loadCategories === 'function') {
             await loadCategories();
         }
         
     } catch (error) {
         console.error('Ошибка при редактировании категории:', error);
-<<<<<<< HEAD
         alert('Не удалось изменить категорию. Пожалуйста, попробуйте снова.');
-=======
-        alert('Не удалось изменить категорию');
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
     }
 }
 

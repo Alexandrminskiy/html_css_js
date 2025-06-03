@@ -322,11 +322,7 @@ th {
     gap: 12px;
     justify-content: space-between;
 }
-<<<<<<< HEAD
 /* 
-=======
-
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
 /* .modal-btn {
     padding: 12px 24px;
     border-radius: 8px;
@@ -358,15 +354,6 @@ th {
     font-size: 15px;
 }
 
-<<<<<<< HEAD
-=======
-/* .actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-} */
-
->>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
 .edit-btn, .delete-btn {
     /* background: none; */
     background-color: #ffffff8a;
