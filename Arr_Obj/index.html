@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление бюджетом</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h2>Управление бюджетом</h2>
 
@@ -49,11 +47,12 @@
 
     <!-- Блок для вывода списка всех транзакций -->
     <div id="transactionsOutput"></div>
-
+    
     <!-- Кнопка обновления списка транзакций -->
     <button id="refreshBtn" class="refresh-btn">Обновить список</button>
 
     <!-- Модальное окно для управления категориями -->
+<<<<<<< HEAD
       <div id="categoryModal" class="modal">
         <div class="modal-content">
             <h3 id="modalCategoryTitle">Новая категория</h3>
@@ -63,6 +62,16 @@
                     <button id="cancelCategoryBtn" class="modal-btn cancel-btn">Отмена</button>
                     <button id="addCategoryBtn" class="action-btn add-btn">+ Добавить</button>
                 </div>
+=======
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalCategoryTitle">Новая категория</h3>
+            <input type="text" id="newCategoryName" placeholder="Например: Зарплата, Продукты...">
+            <div class="modal-buttons">
+                <button id="deleteCategoryBtn" class="modal-btn delete-btn" style="display: none;">Удалить</button>
+                <button id="cancelCategoryBtn" class="modal-btn cancel-btn">Отмена</button>
+                <button id="saveCategoryBtn" class="modal-btn save-btn">Добавить</button>
+>>>>>>> b58711422dd38b53d898b7c063eb418e24c1ace2
             </div>
             <div id="categoryList" class="category-list"></div>
         </div>
@@ -73,5 +82,4 @@
     <script src="modalcategory.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
