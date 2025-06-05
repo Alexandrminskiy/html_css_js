@@ -9,9 +9,9 @@ function showCategoryManagementModal(type) {
     currentCategoryType = type;
     const modal = document.getElementById('categoryModal');
     const modalTitle = document.getElementById('modalCategoryTitle');
-    
+
     modalTitle.textContent = `Управление категориями (${type === 'income' ? 'Доходы' : 'Расходы'})`;
-    
+
     // Загружаем список категорий
     loadCategoryList(type);
 
@@ -28,9 +28,8 @@ function showCategoryManagementModal(type) {
 async function loadCategoryList(type) {
     const categories = await getCategories(type);
     const categoryList = document.getElementById('categoryList');
-    
+
     categoryList.innerHTML = `
-        
         <ul class="categories-list">
             ${categories.map(cat => `
                 <li class="category-item" data-value="${cat.value}">
@@ -43,7 +42,7 @@ async function loadCategoryList(type) {
             `).join('')}
         </ul>
     `;
-    
+
     // Настройка обработчиков событий
     setupCategoryListEvents();
 }
@@ -54,7 +53,7 @@ async function loadCategoryList(type) {
 function setupCategoryListEvents() {
     // Добавление новой категории
     document.getElementById('addCategoryBtn').addEventListener('click', addNewCategory);
-    
+
     // Редактирование категории
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -62,7 +61,7 @@ function setupCategoryListEvents() {
             editCategory(value);
         });
     });
-    
+
     // Удаление категории
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -70,7 +69,7 @@ function setupCategoryListEvents() {
             deleteExistingCategory(value);
         });
     });
-    
+
     // Добавляем возможность добавления по Enter
     document.getElementById('newCategoryName').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -85,39 +84,39 @@ function setupCategoryListEvents() {
 async function addNewCategory() {
     const nameInput = document.getElementById('newCategoryName');
     const name = nameInput.value.trim();
-    
+
     if (!name) {
         alert('Пожалуйста, введите название категории');
         return;
     }
-    
+
     const newCategory = {
         value: name.toLowerCase().replace(/\s+/g, '_'),
         text: name
     };
-    
+
     try {
         const categories = await getCategories(currentCategoryType);
-        
+
         // Проверяем, что категория не существует
         if (categories.some(cat => cat.value === newCategory.value)) {
             alert('Категория с таким названием уже существует!');
             return;
         }
-        
+
         // Добавляем новую категорию
         const updatedCategories = [...categories, newCategory];
         await updateCategories(currentCategoryType, updatedCategories);
-        
+
         // Обновляем список и очищаем поле ввода
         await loadCategoryList(currentCategoryType);
         nameInput.value = '';
-        
+
         // Обновляем выпадающие списки в формах
         if (typeof loadCategories === 'function') {
             await loadCategories();
         }
-        
+
     } catch (error) {
         console.error('Ошибка при добавлении категории:', error);
         alert('Не удалось добавить категорию');
@@ -131,59 +130,59 @@ async function editCategory(categoryValue) {
     try {
         const categories = await getCategories(currentCategoryType);
         const category = categories.find(cat => cat.value === categoryValue);
-        
+
         if (!category) {
             console.error('Категория не найдена');
             return;
         }
-        
+
         const newName = prompt('Введите новое название категории:', category.text);
-        
+
         // Проверка ввода пользователя
         if (!newName) {
             console.log('Редактирование отменено пользователем');
             return;
         }
-        
+
         const trimmedName = newName.trim();
         if (trimmedName === '') {
             alert('Название категории не может быть пустым');
             return;
         }
-        
+
         // Проверка на дубликаты (исключая текущую категорию)
         const isDuplicate = categories.some(
-            cat => cat.text.toLowerCase() === trimmedName.toLowerCase() && 
-                  cat.value !== categoryValue
+            cat => cat.text.toLowerCase() === trimmedName.toLowerCase() &&
+                cat.value !== categoryValue
         );
-        
+
         if (isDuplicate) {
             alert('Категория с таким названием уже существует!');
             return;
         }
-        
+
         // Обновляем категорию
-        const updatedCategories = categories.map(cat => 
+        const updatedCategories = categories.map(cat =>
             cat.value === categoryValue ? { ...cat, text: trimmedName } : cat
         );
-        
+
         await updateCategories(currentCategoryType, updatedCategories);
-        
+
         // Обновляем связанные транзакции
         await updateTransactionsWithNewCategory(
             categoryValue,
             categoryValue,
             trimmedName
         );
-        
+
         // Обновляем UI
         await loadCategoryList(currentCategoryType);
-        
+
         // Обновляем выпадающие списки в формах, если функция существует
         if (typeof loadCategories === 'function') {
             await loadCategories();
         }
-        
+
     } catch (error) {
         console.error('Ошибка при редактировании категории:', error);
         alert('Не удалось изменить категорию. Пожалуйста, попробуйте снова.');
@@ -197,34 +196,34 @@ async function deleteExistingCategory(categoryValue) {
     if (!confirm('Вы уверены, что хотите удалить эту категорию?\nВсе связанные транзакции будут перемещены в категорию "Другое".')) {
         return;
     }
-    
+
     try {
         const categories = await getCategories(currentCategoryType);
-        
+
         // Удаляем категорию (кроме "Другое")
         if (categoryValue === 'dr') {
             alert('Категорию "Другое" нельзя удалить');
             return;
         }
-        
+
         const updatedCategories = categories.filter(cat => cat.value !== categoryValue);
         await updateCategories(currentCategoryType, updatedCategories);
-        
+
         // Обновляем связанные транзакции (перемещаем в "Другое")
         await updateTransactionsWithNewCategory(
             categoryValue,
             'dr',
             'Другое'
         );
-        
+
         // Обновляем список категорий
         await loadCategoryList(currentCategoryType);
-        
+
         // Обновляем выпадающие списки в формах
         if (typeof loadCategories === 'function') {
             await loadCategories();
         }
-        
+
     } catch (error) {
         console.error('Ошибка при удалении категории:', error);
         alert('Не удалось удалить категорию');
@@ -240,16 +239,16 @@ async function updateTransactionsWithNewCategory(oldValue, newValue, newText) {
         const transactionsToUpdate = transactions.filter(
             trans => trans.category === currentCategoryType && trans.type === oldValue
         );
-        
+
         if (transactionsToUpdate.length > 0) {
             const tx = db.transaction('transactions', 'readwrite');
             const store = tx.objectStore('transactions');
-            
+
             transactionsToUpdate.forEach(trans => {
                 const updatedTransaction = { ...trans, type: newText };
                 store.put(updatedTransaction);
             });
-            
+
             await new Promise((resolve, reject) => {
                 tx.oncomplete = resolve;
                 tx.onerror = (event) => reject(event.target.error);
@@ -264,11 +263,29 @@ async function updateTransactionsWithNewCategory(oldValue, newValue, newText) {
 /**
  * Скрывает модальное окно
  */
+// function hideCategoryModal() {
+//     const modal = document.getElementById('categoryModal');
+//     modal.classList.remove('show');
+//     setTimeout(async () => {
+//         modal.style.display = 'none';
+//         // Проверяем, определена ли функция displayTransactions перед ее вызовом
+//         if (typeof displayTransactions === 'function') {
+//             await displayTransactions(); // Обновляем список транзакций
+//         } else {
+//             console.warn("Функция displayTransactions не определена.");
+//         }
+//     }, 300);
+// }
+
+/**
+ * Скрывает модальное окно
+ */
 function hideCategoryModal() {
     const modal = document.getElementById('categoryModal');
     modal.classList.remove('show');
     setTimeout(() => {
         modal.style.display = 'none';
+        window.location.reload(); // Перезагрузка страницы
     }, 300);
 }
 
@@ -280,13 +297,14 @@ function setupCategoryManagementListeners() {
     document.getElementById('manageIncomeCategories').addEventListener('click', () => {
         showCategoryManagementModal('income');
     });
-    
+
     document.getElementById('manageExpenseCategories').addEventListener('click', () => {
         showCategoryManagementModal('expense');
     });
-    
+
     // Кнопка закрытия модального окна
     document.getElementById('cancelCategoryBtn').addEventListener('click', hideCategoryModal);
+    
 }
 
 // Инициализация при загрузке страницы
