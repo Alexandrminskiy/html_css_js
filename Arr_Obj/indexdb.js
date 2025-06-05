@@ -19,7 +19,7 @@ function initDB() {
                     keyPath: 'id',        // Поле, которое будет ключом
                     autoIncrement: true   // Автоматически генерируемый ID
                 });
-                
+
                 // Создаем индексы для быстрого поиска
                 store.createIndex('category', 'category', { unique: false });
                 store.createIndex('type', 'type', { unique: false });
@@ -145,8 +145,22 @@ function updateTransaction(transaction) {
         const tx = db.transaction('transactions', 'readwrite');
         const store = tx.objectStore('transactions');
         const request = store.put(transaction);
-        
+
         request.onsuccess = () => resolve();
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+/**
+ * Получает транзакцию по ID
+ */
+async function getTransactionById(id) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('transactions', 'readonly');
+        const store = tx.objectStore('transactions');
+        const request = store.get(id);
+
+        request.onsuccess = () => resolve(request.result);
         request.onerror = (event) => reject(event.target.error);
     });
 }

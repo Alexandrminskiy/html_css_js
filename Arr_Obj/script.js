@@ -179,7 +179,7 @@ async function displayTransactions() {
         output.innerHTML = generateTransactionsHTML(transactions);
 
         // Настраиваем обработчики для кнопок действий
-        setupTransactionActions();
+        setupTransactionActions(); // ВАЖНО: Вызываем после обновления HTML!
 
     } catch (error) {
         console.error('Ошибка при загрузке транзакций:', error);
@@ -217,6 +217,13 @@ function generateTransactionsHTML(transactions) {
         const amountSign = isIncome ? '+' : '-';
         const absoluteAmount = Math.abs(trans.amount);
 
+        // Добавляем проверку на существование trans.id и выводим в консоль, если его нет
+        // if (!trans.id) {
+        //     console.error("Внимание!  Транзакция без ID:", trans);
+        // } else {
+        //     console.log("ID транзакции:", trans.id);
+        // }
+
         html += `
             <tr class="${rowClass}" data-id="${trans.id}">
                 <td>${trans.type}</td>
@@ -242,21 +249,58 @@ function setupTransactionActions() {
     // Обработчики для кнопок удаления
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
-            const id = parseInt(e.target.getAttribute('data-id'));
-            if (confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
-                await deleteTransaction(id);
-                await displayTransactions(); // Обновляем список после удаления
+            e.preventDefault();
+            const transactionIdToDelete = Number(e.target.getAttribute('data-id'));
+            // console.log(typeof transactionIdToDelete, transactionIdToDelete);
+
+            if (isNaN(transactionIdToDelete)) {
+                console.error("Некорректный ID транзакции для удаления:", e.target.getAttribute('data-id'));
+                return;
             }
+
+            showDeleteConfirmationModal(transactionIdToDelete); // Передаем ID в функцию
         });
     });
 
-    // Обработчики для кнопок редактирования
+    // Обработчики для кнопок редактирования (без изменений)
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             const id = parseInt(e.target.getAttribute('data-id'));
             await showEditTransactionModal(id);
         });
     });
+
+    // Функция для отображения модального окна подтверждения
+    function showDeleteConfirmationModal(transactionId) { // Принимаем ID как параметр
+        const modal = document.getElementById('deleteConfirmationModal');
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+
+        // Обработчик для кнопки "Удалить" в модальном окне
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        confirmDeleteBtn.addEventListener('click', async () => {
+            // console.log("ID перед deleteTransaction:", transactionId); // Используем переданный ID
+            await deleteTransaction(transactionId);
+            await displayTransactions();
+            hideDeleteConfirmationModal();
+        }, { once: true }); // Обработчик должен сработать только один раз
+
+        // Обработчик для кнопки "Отмена" в модальном окне
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+            hideDeleteConfirmationModal();
+        }, { once: true }); // Обработчик должен сработать только один раз
+    }
+
+    // Функция для скрытия модального окна
+    function hideDeleteConfirmationModal() {
+        const modal = document.getElementById('deleteConfirmationModal');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
 }
 
 /**
@@ -400,12 +444,19 @@ async function getTransactionById(id) {
  * Удаляет транзакцию
  */
 async function deleteTransaction(id) {
+    // console.log("deleteTransaction вызвана с ID:", id); // Добавлено для отладки
     return new Promise((resolve, reject) => {
         const tx = db.transaction('transactions', 'readwrite');
         const store = tx.objectStore('transactions');
         const request = store.delete(id);
 
-        request.onsuccess = () => resolve();
-        request.onerror = (event) => reject(event.target.error);
+        request.onsuccess = () => {
+            // console.log("Транзакция успешно удалена с ID:", id); // Добавлено для отладки
+            resolve();
+        };
+        request.onerror = (event) => {
+            console.error("Ошибка при удалении транзакции:", event.target.error); // Добавлено для отладки
+            reject(event.target.error);
+        };
     });
 }
