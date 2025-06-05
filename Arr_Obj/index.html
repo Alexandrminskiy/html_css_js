@@ -32,8 +32,7 @@
             <div class="form-row">
                 <select id="incomeType" class="category-select"></select>
                 <button type="button" id="manageIncomeCategories" class="manage-categories-btn">⚙️</button>
-                <input type="number" id="incomeAmount" class="amount-input" placeholder="Сумма" min="0.01"
-                    step="0.01">
+                <input type="number" id="incomeAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
                 <button type="submit" class="submit-btn">Добавить</button>
             </div>
         </form>
@@ -43,8 +42,7 @@
             <div class="form-row">
                 <select id="expenseType" class="category-select"></select>
                 <button type="button" id="manageExpenseCategories" class="manage-categories-btn">⚙️</button>
-                <input type="number" id="expenseAmount" class="amount-input" placeholder="Сумма" min="0.01"
-                    step="0.01">
+                <input type="number" id="expenseAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
                 <button type="submit" class="submit-btn">Добавить</button>
             </div>
         </form>
@@ -54,7 +52,8 @@
     <div id="transactionsOutput"></div>
 
     <!-- Кнопка обновления списка транзакций -->
-    <button id="refreshBtn" class="refresh-btn">Обновить список</button>
+     <!-- Убрана чтоб не мешать, так и без нее все работает автоматом -->
+    <!-- <button id="refreshBtn" class="refresh-btn">Обновить список</button> -->
 
     <!-- Модальное окно для управления категориями -->
     <div id="categoryModal" class="modal">
@@ -69,6 +68,12 @@
             </div>
             <div id="categoryList" class="category-list"></div>
         </div>
+    </div>
+
+    <!-- Контейнер для аналитики (скрыт по умолчанию) -->
+    <div id="analyticsContainer" class="analytics-container" style="display: none;">
+        <button id="backBtn" class="refresh-btn">Назад</button>
+        <div id="analyticsContent"></div>
     </div>
 
     <!-- Подключаем скрипты -->

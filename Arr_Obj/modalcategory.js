@@ -30,7 +30,8 @@ async function loadCategoryList(type) {
     const categoryList = document.getElementById('categoryList');
     
     categoryList.innerHTML = `
-                <ul class="categories-list">
+        
+        <ul class="categories-list">
             ${categories.map(cat => `
                 <li class="category-item" data-value="${cat.value}">
                     <span class="category-name">${cat.text}</span>

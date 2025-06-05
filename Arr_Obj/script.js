@@ -1,7 +1,7 @@
 // script.js
 
 // Импортируем функции из других файлов
-import { displayAnalyticsInNewPage } from './analytics.js';
+import { displayAnalyticsSPA } from './analytics.js';
 
 // Инициализация приложения после загрузки DOM
 document.addEventListener('DOMContentLoaded', async () => {
@@ -72,25 +72,52 @@ function setupEventListeners() {
     });
 
     // Обработчики отправки форм
-    document.getElementById('incomeForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleTransactionSubmit('income');
-    });
+    const incomeForm = document.getElementById('incomeForm');
+    if (incomeForm) {
+        incomeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleTransactionSubmit('income');
+        });
+    } else {
+        console.error('Форма доходов не найдена');
+    }
 
-    document.getElementById('expenseForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleTransactionSubmit('expense');
-    });
-
-    // Кнопка обновления списка транзакций
-    document.getElementById('refreshBtn').addEventListener('click', displayTransactions);
+    const expenseForm = document.getElementById('expenseForm');
+    if (expenseForm) {
+        expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleTransactionSubmit('expense');
+        });
+    } else {
+        console.error('Форма расходов не найдена');
+    }
 
     // Кнопка вывода аналитики (получаем из HTML)
     const showAnalyticsBtn = document.getElementById('showAnalyticsBtn');
-    showAnalyticsBtn.addEventListener('click', async () => {
-        const transactions = await getAllTransactions();
-        displayAnalyticsInNewPage(transactions); // Открываем в новой странице
-    });
+    if (showAnalyticsBtn) {
+        showAnalyticsBtn.addEventListener('click', async () => {
+            const transactions = await getAllTransactions();
+            displayAnalyticsSPA(transactions); // Отображаем аналитику на странице
+        });
+    } else {
+        console.error('Кнопка showAnalyticsBtn не найдена в DOM');
+    }
+
+    // Кнопка "Назад"
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            // Получаем контейнер аналитики и список транзакций
+            const analyticsContainer = document.getElementById('analyticsContainer');
+            const transactionsOutput = document.getElementById('transactionsOutput');
+
+            // Скрываем аналитику и показываем список транзакций
+            analyticsContainer.style.display = 'none';
+            transactionsOutput.style.display = 'block';
+        });
+    } else {
+        console.error('Кнопка backBtn не найдена в DOM');
+    }
 }
 
 /**
@@ -101,7 +128,6 @@ function toggleTransactionType() {
     document.getElementById('incomeForm').style.display = isIncome ? 'block' : 'none';
     document.getElementById('expenseForm').style.display = isIncome ? 'none' : 'block';
 }
-
 
 /**
  * Обрабатывает добавление новой транзакции
@@ -126,7 +152,7 @@ async function handleTransactionSubmit(type) {
     try {
         await addTransaction(transaction);
         amountInput.value = '';
-        await displayTransactions();
+        await displayTransactions(); // Обновляем список после добавления
     } catch (error) {
         console.error('Ошибка при добавлении транзакции:', error);
         alert('Не удалось добавить транзакцию. Попробуйте снова.');
@@ -219,7 +245,7 @@ function setupTransactionActions() {
             const id = parseInt(e.target.getAttribute('data-id'));
             if (confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
                 await deleteTransaction(id);
-                await displayTransactions();
+                await displayTransactions(); // Обновляем список после удаления
             }
         });
     });
@@ -298,7 +324,7 @@ async function showEditTransactionModal(id) {
         e.preventDefault();
         await updateTransactionData();
         modal.remove();
-        await displayTransactions();
+        await displayTransactions(); // Обновляем список после редактирования
     });
 }
 

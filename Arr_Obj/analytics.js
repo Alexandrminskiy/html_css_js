@@ -61,81 +61,73 @@ function formatCurrency(amount) {
 }
 
 /**
- * Создает HTML для отображения аналитики.
- * @param {Object} analytics Объект аналитики.
- * @returns {string} HTML-строка.
+ * Создает HTML для отображения аналитики (только контент, без обертки HTML).
  */
 function generateAnalyticsHTML(analytics) {
-    //  Добавляем обертку для новой страницы
     return `
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Аналитика денежных средств</title>
-        <link rel="stylesheet" href="style.css"> <!-- Подключаем CSS -->
-    </head>
-    <body>
-        <div class="analytics-container">
-            <header class="analytics-header">
-                <h2>Аналитика денежных средств</h2>
-                <p>Подробный отчет о ваших доходах и расходах</p>
-            </header>
+    <header class="analytics-header">
+        <h2>Аналитика денежных средств</h2>
+        <p>Подробный отчет о ваших доходах и расходах</p>
+    </header>
 
-            <section class="summary-section">
-                <div class="summary-item">
-                    <h3>Доходы</h3>
-                    <p class="positive">${formatCurrency(analytics.income)}</p>
-                </div>
-                <div class="summary-item">
-                    <h3>Расходы</h3>
-                    <p class="negative">${formatCurrency(analytics.expense)}</p>
-                </div>
-                <div class="summary-item">
-                    <h3>Баланс</h3>
-                    <p class="${analytics.balance >= 0 ? 'positive' : 'negative'}">
-                        ${formatCurrency(analytics.balance)}
-                    </p>
-                </div>
-            </section>
-
-            <section class="category-section">
-                <h3>Детализация по категориям</h3>
-                <ul class="category-list">
-                    ${Object.entries(analytics.categoryTotals)
-                        .map(([category, data]) => `
-                            <li class="category-item">
-                                <span class="category-name">${category}</span>
-                                <span class="category-total ${data.total >= 0 ? 'positive' : 'negative'}">
-                                    ${formatCurrency(data.total)}
-                                </span>
-                            </li>
-                        `).join('')}
-                </ul>
-            </section>
+    <section class="summary-section">
+        <div class="summary-item">
+            <h3>Доходы</h3>
+            <p class="positive">${formatCurrency(analytics.income)}</p>
         </div>
-    </body>
-    </html>
+        <div class="summary-item">
+            <h3>Расходы</h3>
+            <p class="negative">${formatCurrency(analytics.expense)}</p>
+        </div>
+        <div class="summary-item">
+            <h3>Баланс</h3>
+            <p class="${analytics.balance >= 0 ? 'positive' : 'negative'}">
+                ${formatCurrency(analytics.balance)}
+            </p>
+        </div>
+    </section>
+
+    <section class="category-section">
+        <h3>Детализация по категориям</h3>
+        <ul class="category-list">
+            ${Object.entries(analytics.categoryTotals)
+                .map(([category, data]) => `
+                    <li class="category-item">
+                        <span class="category-name">${category}</span>
+                        <span class="category-total ${data.total >= 0 ? 'positive' : 'negative'}">
+                            ${formatCurrency(data.total)}
+                        </span>
+                    </li>
+                `).join('')}
+        </ul>
+    </section>
     `;
 }
 
 /**
- * Открывает аналитику в новом окне.
+ * Отображает аналитику на странице (SPA).
  * @param {Array<Object>} transactions Массив транзакций.
  */
-async function displayAnalyticsInNewPage(transactions) {
+async function displayAnalyticsSPA(transactions) {
     const analytics = calculateAnalytics(transactions);
     const analyticsHTML = generateAnalyticsHTML(analytics);
 
-    // Открываем новое окно
-    const newWindow = window.open('', '_blank');
-    if (newWindow) {
-        newWindow.document.write(analyticsHTML);
-        newWindow.document.close(); // Важно закрыть документ для корректного отображения
-    } else {
-        alert('Не удалось открыть новое окно.  Пожалуйста, разрешите всплывающие окна для этого сайта.');
+    // Получаем контейнер и контент
+    const analyticsContainer = document.getElementById('analyticsContainer');
+    const analyticsContent = document.getElementById('analyticsContent');
+    const transactionsOutput = document.getElementById('transactionsOutput'); // Получаем список транзакций
+
+    if (!analyticsContainer || !analyticsContent || !transactionsOutput) {
+        console.error('Не найдены элементы для отображения аналитики');
+        return;
     }
+
+    // Заполняем контент аналитикой
+    analyticsContent.innerHTML = analyticsHTML;
+
+    // Скрываем список транзакций и показываем аналитику
+    transactionsOutput.style.display = 'none';
+    analyticsContainer.style.display = 'block';
 }
 
-export { displayAnalyticsInNewPage };
+export { displayAnalyticsSPA };
