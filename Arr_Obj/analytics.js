@@ -91,7 +91,7 @@ function generateAnalyticsHTML(analytics) {
         <h3>Детализация по категориям</h3>
         <ul class="category-list">
             ${Object.entries(analytics.categoryTotals)
-                .map(([category, data]) => `
+            .map(([category, data]) => `
                     <li class="category-item">
                         <span class="category-name">${category}</span>
                         <span class="category-total ${data.total >= 0 ? 'positive' : 'negative'}">
@@ -107,27 +107,10 @@ function generateAnalyticsHTML(analytics) {
 /**
  * Отображает аналитику на странице (SPA).
  * @param {Array<Object>} transactions Массив транзакций.
- */
-async function displayAnalyticsSPA(transactions) {
+ */async function displayAnalyticsSPA(transactions) {
     const analytics = calculateAnalytics(transactions);
-    const analyticsHTML = generateAnalyticsHTML(analytics);
-
-    // Получаем контейнер и контент
-    const analyticsContainer = document.getElementById('analyticsContainer');
     const analyticsContent = document.getElementById('analyticsContent');
-    const transactionsOutput = document.getElementById('transactionsOutput'); // Получаем список транзакций
-
-    if (!analyticsContainer || !analyticsContent || !transactionsOutput) {
-        console.error('Не найдены элементы для отображения аналитики');
-        return;
-    }
-
-    // Заполняем контент аналитикой
-    analyticsContent.innerHTML = analyticsHTML;
-
-    // Скрываем список транзакций и показываем аналитику
-    transactionsOutput.style.display = 'none';
-    analyticsContainer.style.display = 'block';
+    analyticsContent.innerHTML = generateAnalyticsHTML(analytics);
 }
 
 export { displayAnalyticsSPA };

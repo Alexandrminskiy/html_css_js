@@ -25,6 +25,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /**
+ * Управление видимостью экранов приложения
+ * @param {string} screenName - Имя экрана ('main', 'analytics', 'settings')
+ */
+function setScreen(screenName) {
+    const mainContent = document.querySelector('.main-content');
+    const analyticsContainer = document.getElementById('analyticsContainer');
+    const settingsContainer = document.getElementById('settingsContainer');
+    const backBtn = document.getElementById('backBtn');
+
+    // Скрываем всё
+    mainContent.classList.add('hidden');
+    analyticsContainer.style.display = 'none';
+    settingsContainer.style.display = 'none';
+    backBtn.style.display = 'none';
+
+    // Показываем нужный экран
+    switch(screenName) {
+        case 'main':
+            mainContent.classList.remove('hidden');
+            break;
+        case 'analytics':
+            analyticsContainer.style.display = 'block';
+            backBtn.style.display = 'block';
+            break;
+        case 'settings':
+            settingsContainer.style.display = 'block';
+            break;
+    }
+}
+
+/**
  * Загружает категории из базы данных и заполняет выпадающие списки
  */
 async function loadCategories() {
@@ -66,58 +97,42 @@ function fillSelect(selectId, categories) {
 function setupEventListeners() {
     // Обработчики для переключателя доход/расход
     document.querySelectorAll('input[name="balance"]').forEach(radio => {
-        radio.addEventListener('change', function () {
+        radio.addEventListener('change', function() {
             toggleTransactionType();
         });
     });
 
     // Обработчики отправки форм
-    const incomeForm = document.getElementById('incomeForm');
-    if (incomeForm) {
-        incomeForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleTransactionSubmit('income');
-        });
-    } else {
-        console.error('Форма доходов не найдена');
-    }
+    document.getElementById('incomeForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleTransactionSubmit('income');
+    });
 
-    const expenseForm = document.getElementById('expenseForm');
-    if (expenseForm) {
-        expenseForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleTransactionSubmit('expense');
-        });
-    } else {
-        console.error('Форма расходов не найдена');
-    }
+    document.getElementById('expenseForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleTransactionSubmit('expense');
+    });
 
-    // Кнопка вывода аналитики (получаем из HTML)
-    const showAnalyticsBtn = document.getElementById('showAnalyticsBtn');
-    if (showAnalyticsBtn) {
-        showAnalyticsBtn.addEventListener('click', async () => {
-            const transactions = await getAllTransactions();
-            displayAnalyticsSPA(transactions); // Отображаем аналитику на странице
-        });
-    } else {
-        console.error('Кнопка showAnalyticsBtn не найдена в DOM');
-    }
+    // Кнопка вывода аналитики
+    document.getElementById('showAnalyticsBtn')?.addEventListener('click', async () => {
+        const transactions = await getAllTransactions();
+        displayAnalyticsSPA(transactions);
+        setScreen('analytics');
+    });
 
     // Кнопка "Назад"
-    const backBtn = document.getElementById('backBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            // Получаем контейнер аналитики и список транзакций
-            const analyticsContainer = document.getElementById('analyticsContainer');
-            const transactionsOutput = document.getElementById('transactionsOutput');
+    document.getElementById('backBtn')?.addEventListener('click', () => {
+        setScreen('main');
+    });
 
-            // Скрываем аналитику и показываем список транзакций
-            analyticsContainer.style.display = 'none';
-            transactionsOutput.style.display = 'block';
-        });
-    } else {
-        console.error('Кнопка backBtn не найдена в DOM');
-    }
+    // Обработчики для кнопок управления категориями
+    document.getElementById('manageIncomeCategories')?.addEventListener('click', () => {
+        showCategoryManagementModal('income');
+    });
+
+    document.getElementById('manageExpenseCategories')?.addEventListener('click', () => {
+        showCategoryManagementModal('expense');
+    });
 }
 
 /**
@@ -179,7 +194,7 @@ async function displayTransactions() {
         output.innerHTML = generateTransactionsHTML(transactions);
 
         // Настраиваем обработчики для кнопок действий
-        setupTransactionActions(); // ВАЖНО: Вызываем после обновления HTML!
+        setupTransactionActions();
 
     } catch (error) {
         console.error('Ошибка при загрузке транзакций:', error);
@@ -217,13 +232,6 @@ function generateTransactionsHTML(transactions) {
         const amountSign = isIncome ? '+' : '-';
         const absoluteAmount = Math.abs(trans.amount);
 
-        // Добавляем проверку на существование trans.id и выводим в консоль, если его нет
-        // if (!trans.id) {
-        //     console.error("Внимание!  Транзакция без ID:", trans);
-        // } else {
-        //     console.log("ID транзакции:", trans.id);
-        // }
-
         html += `
             <tr class="${rowClass}" data-id="${trans.id}">
                 <td>${trans.type}</td>
@@ -251,56 +259,58 @@ function setupTransactionActions() {
         btn.addEventListener('click', async (e) => {
             e.preventDefault();
             const transactionIdToDelete = Number(e.target.getAttribute('data-id'));
-            // console.log(typeof transactionIdToDelete, transactionIdToDelete);
 
             if (isNaN(transactionIdToDelete)) {
                 console.error("Некорректный ID транзакции для удаления:", e.target.getAttribute('data-id'));
                 return;
             }
 
-            showDeleteConfirmationModal(transactionIdToDelete); // Передаем ID в функцию
+            showDeleteConfirmationModal(transactionIdToDelete);
         });
     });
 
-    // Обработчики для кнопок редактирования (без изменений)
+    // Обработчики для кнопок редактирования
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             const id = parseInt(e.target.getAttribute('data-id'));
             await showEditTransactionModal(id);
         });
     });
+}
 
-    // Функция для отображения модального окна подтверждения
-    function showDeleteConfirmationModal(transactionId) { // Принимаем ID как параметр
-        const modal = document.getElementById('deleteConfirmationModal');
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.classList.add('show');
-        }, 10);
+/**
+ * Показывает модальное окно подтверждения удаления
+ */
+function showDeleteConfirmationModal(transactionId) {
+    const modal = document.getElementById('deleteConfirmationModal');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 
-        // Обработчик для кнопки "Удалить" в модальном окне
-        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-        confirmDeleteBtn.addEventListener('click', async () => {
-            // console.log("ID перед deleteTransaction:", transactionId); // Используем переданный ID
-            await deleteTransaction(transactionId);
-            await displayTransactions();
-            hideDeleteConfirmationModal();
-        }, { once: true }); // Обработчик должен сработать только один раз
+    // Обработчик для кнопки "Удалить"
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    confirmDeleteBtn.addEventListener('click', async () => {
+        await deleteTransaction(transactionId);
+        await displayTransactions();
+        hideDeleteConfirmationModal();
+    }, { once: true });
 
-        // Обработчик для кнопки "Отмена" в модальном окне
-        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-            hideDeleteConfirmationModal();
-        }, { once: true }); // Обработчик должен сработать только один раз
-    }
+    // Обработчик для кнопки "Отмена"
+    document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+        hideDeleteConfirmationModal();
+    }, { once: true });
+}
 
-    // Функция для скрытия модального окна
-    function hideDeleteConfirmationModal() {
-        const modal = document.getElementById('deleteConfirmationModal');
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
-    }
+/**
+ * Скрывает модальное окно подтверждения удаления
+ */
+function hideDeleteConfirmationModal() {
+    const modal = document.getElementById('deleteConfirmationModal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
 }
 
 /**
@@ -412,51 +422,9 @@ async function updateTransactionData() {
     };
 
     try {
-        await new Promise((resolve, reject) => {
-            const tx = db.transaction('transactions', 'readwrite');
-            const store = tx.objectStore('transactions');
-            const request = store.put(transaction);
-
-            request.onsuccess = () => resolve();
-            request.onerror = (event) => reject(event.target.error);
-        });
+        await updateTransaction(transaction);
     } catch (error) {
         console.error('Ошибка при обновлении транзакции:', error);
         alert('Не удалось обновить транзакцию');
     }
-}
-
-/**
- * Получает транзакцию по ID
- */
-async function getTransactionById(id) {
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction('transactions', 'readonly');
-        const store = tx.objectStore('transactions');
-        const request = store.get(id);
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = (event) => reject(event.target.error);
-    });
-}
-
-/**
- * Удаляет транзакцию
- */
-async function deleteTransaction(id) {
-    // console.log("deleteTransaction вызвана с ID:", id); // Добавлено для отладки
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction('transactions', 'readwrite');
-        const store = tx.objectStore('transactions');
-        const request = store.delete(id);
-
-        request.onsuccess = () => {
-            // console.log("Транзакция успешно удалена с ID:", id); // Добавлено для отладки
-            resolve();
-        };
-        request.onerror = (event) => {
-            console.error("Ошибка при удалении транзакции:", event.target.error); // Добавлено для отладки
-            reject(event.target.error);
-        };
-    });
 }

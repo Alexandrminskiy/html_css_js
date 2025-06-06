@@ -9,51 +9,59 @@
 </head>
 
 <body>
-    <h2>Управление бюджетом</h2>
-
-    <div class="form-container">
-        <!-- Переключатель доход/расход и кнопка аналитики -->
-        <div class="analytics-row">
-            <div class="radio-group">
-                <label class="radio-button">
-                    <input type="radio" name="balance" value="income" checked>
-                    <span class="radio-label income">Доход</span>
-                </label>
-                <label class="radio-button">
-                    <input type="radio" name="balance" value="expense">
-                    <span class="radio-label expense">Расход</span>
-                </label>
-            </div>
-            <button id="showAnalyticsBtn" class="refresh-btn">Вывести аналитику</button>
-        </div>
-
-        <!-- Форма для доходов -->
-        <form id="incomeForm" class="transaction-form">
-            <div class="form-row">
-                <select id="incomeType" class="category-select"></select>
-                <button type="button" id="manageIncomeCategories" class="manage-categories-btn">⚙️</button>
-                <input type="number" id="incomeAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
-                <button type="submit" class="submit-btn">Добавить</button>
-            </div>
-        </form>
-
-        <!-- Форма для расходов -->
-        <form id="expenseForm" class="transaction-form" style="display: none;">
-            <div class="form-row">
-                <select id="expenseType" class="category-select"></select>
-                <button type="button" id="manageExpenseCategories" class="manage-categories-btn">⚙️</button>
-                <input type="number" id="expenseAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
-                <button type="submit" class="submit-btn">Добавить</button>
-            </div>
-        </form>
+    <div class="header-container">
+        <h2>Управление бюджетом</h2>
+        <button id="settingsBtn" class="settings-icon-btn">
+            <svg class="tools-icon" viewBox="0 0 24 24" width="24" height="24">
+                <!-- Ключ -->
+                <path d="M12 3a5 5 0 0 0-5 5c0 1.38.56 2.63 1.46 3.54L3 17.54 6.46 21l6-6c.91.9 2.16 1.46 3.54 1.46a5 5 0 0 0 0-10zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                <!-- Отвертка -->
+                <path d="M15.54 3.54L20 8l-4.46 4.46-1.41-1.41L17.17 8l-3.04-3.04 1.41-1.42zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/>
+            </svg>
+        </button>
     </div>
 
-    <!-- Блок для вывода списка всех транзакций -->
-    <div id="transactionsOutput"></div>
+    <div class="main-content">
+        <div class="form-container">
+            <!-- Переключатель доход/расход и кнопка аналитики -->
+            <div class="analytics-row">
+                <div class="radio-group">
+                    <label class="radio-button">
+                        <input type="radio" name="balance" value="income" checked>
+                        <span class="radio-label income">Доход</span>
+                    </label>
+                    <label class="radio-button">
+                        <input type="radio" name="balance" value="expense">
+                        <span class="radio-label expense">Расход</span>
+                    </label>
+                </div>
+                <button id="showAnalyticsBtn" class="refresh-btn">Вывести аналитику</button>
+            </div>
 
-    <!-- Кнопка обновления списка транзакций -->
-     <!-- Убрана чтоб не мешать, так и без нее все работает автоматом -->
-    <!-- <button id="refreshBtn" class="refresh-btn">Обновить список</button> -->
+            <!-- Форма для доходов -->
+            <form id="incomeForm" class="transaction-form">
+                <div class="form-row">
+                    <select id="incomeType" class="category-select"></select>
+                    <button type="button" id="manageIncomeCategories" class="manage-categories-btn">⚙️</button>
+                    <input type="number" id="incomeAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
+                    <button type="submit" class="submit-btn">Добавить</button>
+                </div>
+            </form>
+
+            <!-- Форма для расходов -->
+            <form id="expenseForm" class="transaction-form" style="display: none;">
+                <div class="form-row">
+                    <select id="expenseType" class="category-select"></select>
+                    <button type="button" id="manageExpenseCategories" class="manage-categories-btn">⚙️</button>
+                    <input type="number" id="expenseAmount" class="amount-input" placeholder="Сумма" min="0.01" step="0.01">
+                    <button type="submit" class="submit-btn">Добавить</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Блок для вывода списка всех транзакций -->
+        <div id="transactionsOutput"></div>
+    </div>
 
     <!-- Модальное окно для управления категориями -->
     <div id="categoryModal" class="modal">
@@ -72,13 +80,23 @@
 
     <!-- Контейнер для аналитики (скрыт по умолчанию) -->
     <div id="analyticsContainer" class="analytics-container" style="display: none;">
-        <button id="backBtn" class="refresh-btn">Назад</button>
         <div id="analyticsContent"></div>
     </div>
-    <!-- Подключаем скрипты -->
-    <script src="indexdb.js"></script>
-    <script src="modalcategory.js"></script>
-    <script type="module" src="script.js"></script>
+
+    <!-- Контейнер для настроек (скрыт по умолчанию) -->
+    <div id="settingsContainer" class="settings-container" style="display: none;">
+        <header class="settings-header">
+            <h2>Настройки приложения</h2>
+            <p>Управление данными и экспорт/импорт</p>
+        </header>
+        
+        <div class="settings-buttons">
+            <button id="exportBtn" class="settings-btn export">Экспорт в CSV</button>
+            <button id="importBtn" class="settings-btn import">Импорт из CSV</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения удаления -->
     <div id="deleteConfirmationModal" class="modal">
         <div class="modal-content">
             <h3>Подтверждение удаления</h3>
@@ -89,6 +107,15 @@
             </div>
         </div>
     </div>
+
+    <!-- Кнопка "Назад" (фиксированная позиция) -->
+    <button id="backBtn" class="refresh-btn" style="display: none;">Назад</button>
+
+    <!-- Подключаем скрипты -->
+    <script src="indexdb.js"></script>
+    <script src="modalcategory.js"></script>
+    <script src="settings.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

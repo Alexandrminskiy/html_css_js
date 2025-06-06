@@ -15,6 +15,14 @@ h2 {
     text-align: center;
     margin-bottom: 25px;
     font-size: 28px;
+    position: relative;
+    padding-top: 10px;
+}
+
+/* Обновленный контейнер для верхней части */
+.header-container {
+    position: relative;
+    margin-bottom: 20px;
 }
 
 /* Контейнер форм */
@@ -76,7 +84,7 @@ h2 {
     color: #e74c3c;
 }
 
-.radio-button input:checked + .radio-label {
+.radio-button input:checked+.radio-label {
     background: #3498db;
     color: white;
 }
@@ -181,7 +189,8 @@ table {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-th, td {
+th,
+td {
     padding: 12px 20px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -203,7 +212,8 @@ th {
     background-color: rgba(231, 76, 60, 0.05);
 }
 
-.income-row:hover, .expense-row:hover {
+.income-row:hover,
+.expense-row:hover {
     background-color: rgba(0, 0, 0, 0.02);
 }
 
@@ -344,7 +354,8 @@ th {
     font-size: 15px;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
     /* background: none; */
     background-color: #ffffff8a;
     border: none;
@@ -378,6 +389,7 @@ th {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -391,20 +403,21 @@ th {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     /* .radio-group {
         width: 100%;
     } */
     .amount-input {
         width: 95%;
     }
+
     .category-select,
     /* .amount-input, */
     .add-category-btn,
     .submit-btn {
         width: 100%;
     }
-    
+
     .summary-item {
         min-width: 100px;
     }
@@ -446,9 +459,10 @@ th {
     gap: 8px;
 }
 
-.edit-category-btn, .delete-category-btn {
+.edit-category-btn,
+.delete-category-btn {
     /* background: none; */
-    
+
     border: none;
     cursor: pointer;
     font-size: 16px;
@@ -459,7 +473,7 @@ th {
 
 .edit-category-btn:hover {
     background-color: rgba(0, 0, 0, 0.2);
-    
+
 }
 
 .delete-category-btn:hover {
@@ -564,31 +578,32 @@ th {
     body {
         padding: 15px;
     }
-    
+
     .form-container {
         padding: 15px;
     }
-    
+
     .summary {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .summary-item {
         flex-basis: 100%;
     }
 }
+
 /* Для мобильных устройств */
 @media (max-width: 480px) {
     .modal-content {
         padding: 25px 20px;
         margin: 0 15px;
     }
-    
+
     .modal-buttons {
         gap: 8px;
     }
-    
+
     .modal-btn {
         padding: 10px 18px;
         font-size: 14px;
@@ -638,7 +653,8 @@ th {
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     background-color: #fff;
-    flex: 1 1 250px; /*  Минимальная ширина и гибкость для адаптивности */
+    flex: 1 1 250px;
+    /*  Минимальная ширина и гибкость для адаптивности */
 }
 
 .summary-item h3 {
@@ -700,9 +716,127 @@ th {
     font-weight: 600;
 }
 
+
+
+/* Стили для контейнера настроек */
+
+.settings-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 8px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+.settings-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f5f7fa;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.settings-icon-btn:hover {
+    transform: rotate(45deg);
+}
+
+.settings-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.settings-header h2 {
+    color: #2c3e50;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.settings-header p {
+    color: #7f8c8d;
+    font-size: 16px;
+}
+
+/* Стили для кнопок настроек */
+.settings-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.settings-btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.settings-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.settings-btn.export {
+    background-color: #2ecc71;
+}
+
+.settings-btn.export:hover {
+    background-color: #27ae60;
+}
+
+.settings-btn.import {
+    background-color: #e74c3c;
+}
+
+.settings-btn.import:hover {
+    background-color: #c0392b;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    .settings-header h2 {
+        font-size: 24px;
+    }
+
+    .settings-buttons {
+        gap: 12px;
+    }
+
+    .settings-btn {
+        padding: 10px 15px;
+        font-size: 15px;
+    }
+}
+
+
+
 /* Стили для кнопки "Назад" (по желанию) */
 #backBtn {
-    margin-bottom: 0px; /* Добавляем отступ снизу */
+    margin-bottom: 0px;
+    display: none;
+    /* Добавляем отступ снизу */
 }
 
 
@@ -715,7 +849,8 @@ th {
 
     .summary-item {
         margin-bottom: 20px;
-        flex-basis: auto; /*  Автоматическая ширина на маленьких экранах */
+        flex-basis: auto;
+        /*  Автоматическая ширина на маленьких экранах */
     }
 }
 
@@ -723,15 +858,33 @@ th {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px; /* Отступ снизу */
+    margin-bottom: 15px;
+    /* Отступ снизу */
 }
 
 .analytics-row .radio-group {
-    margin-right: 15px; /* Отступ от переключателей до кнопки */
+    margin-right: 15px;
+    /* Отступ от переключателей до кнопки */
 }
 
 /*  Дополнительные стили для кнопки аналитики (при необходимости) */
 #showAnalyticsBtn {
     /*  Вы можете настроить стили кнопки здесь */
-    min-width: 150px; /* Задайте минимальную ширину, если нужно */
+    min-width: 150px;
+    /* Задайте минимальную ширину, если нужно */
+}
+/* Новые стили для управления видимостью */
+.main-content {
+    display: block;
+}
+
+.main-content.hidden {
+    display: none;
+}
+
+#backBtn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
 }
